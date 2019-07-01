@@ -1,0 +1,60 @@
+﻿<Window x:Name="MainWindowPlayer" x:Class="WpfMediaPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMediaPlayer"
+        xmlns:controls="clr-namespace:WpfMediaPlayer.Controls"
+        mc:Ignorable="d"
+        Title="Media Player" SizeToContent="Height" Width="800" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" SizeChanged="MainWindowPlayer_SizeChanged" Icon="Images/windows_media_player_25521.ico" >
+    <Grid x:Name="MainGrid" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Открыть файл" Click="MenuItemOpenFile_OnClick"/>
+                <MenuItem Header="Открыть папку с музыкой" Click="MenuItemOpenFolderMusic_OnClick"/>
+            </MenuItem>
+        </Menu>
+        <ListView x:Name="listView" Grid.Row="1" MouseDoubleClick="listView_MouseDoubleClick" Visibility="Hidden" VerticalAlignment="Center" />
+        <MediaElement x:Name="mediaElement" Grid.Row="1" DockPanel.Dock="Top" Visibility="Hidden" LoadedBehavior="Manual" UnloadedBehavior="Manual"
+                      MediaEnded="MediaElement_OnMediaEnded" MediaFailed="MediaElement_OnMediaFailed" VerticalAlignment="Center"/>
+
+        <Grid Grid.Row="2" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="NameMediaFile" Grid.Row="0" Grid.ColumnSpan="8" Width="Auto" HorizontalAlignment="Center"></TextBlock>
+            <Button x:Name="BackButton" Grid.Column="0" Grid.Row="1" Margin="5" Click="BackButton_Click" IsEnabled="False">
+                <Image Source="Images/previoustrack.png" Width="20" Height="20"/>
+            </Button>
+            <controls:PlayPauseButton  Grid.Column="1" Grid.Row="1"
+                x:Name="playPause" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                      PlayShape="{StaticResource PauseShape}" PausedShape="{StaticResource PlayShape}" Margin="5" Click="PlayPause_OnClick" IsDefault="False"/>
+            <Button Grid.Column="2" Grid.Row="1" Content="{StaticResource StopRectangle}" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="5" Click="Stop_OnClick"/>
+            <Button x:Name="NextButton" Grid.Column="3" Grid.Row="1" Margin="5" Click="NextButton_Click" IsEnabled="False">
+                <Image Source="Images/nexttrackbutton.png" Width="20" Height="20" />
+            </Button>
+            <controls:PlayTimeline x:Name="playTimeline" Grid.Column="4" Grid.Row="1" VerticalAlignment="Center"
+                                   local:PlayTimelineEx.MediaElement="{Binding ElementName=mediaElement}"
+                                   />
+            <Label x:Name="Volume" Grid.Column="5" Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Громкость:</Label>
+            <Slider x:Name="volumeSlider" Grid.Column="6" Grid.Row="1" Width="100" Value="0.5" Maximum="1" ValueChanged="VolumeSlider_OnValueChanged" VerticalAlignment="Center" IsMoveToPointEnabled="True"/>
+            <TextBlock x:Name="VolumePercent" Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" MinWidth="30">50%</TextBlock>
+        </Grid>
+    </Grid>
+</Window>
